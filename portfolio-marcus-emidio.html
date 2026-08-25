@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfólio — Marcus Emidio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0a0d;
+    --bg-outer:#050505;
+    --card:#17151a;
+    --card-2:#1d1a22;
+    --line:#2a262f;
+    --text:#f3f0ea;
+    --text-dim:#98949e;
+    --text-faint:#5f5c66;
+    --gold:#e3a53c;
+    --gold-dim:#7a5a24;
+    --violet:#9b6bff;
+    --violet-dim:#4a3680;
+    --display:'Bricolage Grotesque', sans-serif;
+    --body:'Inter', sans-serif;
+    --mono:'JetBrains Mono', monospace;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{background:var(--bg-outer);}
+
+  body{
+    font-family:var(--body);
+    background:var(--bg-outer);
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    display:flex;
+    justify-content:center;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+
+  /* ambient backdrop outside the "reel" frame */
+  .backdrop{
+    position:fixed; inset:0; z-index:0;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(155,107,255,0.10), transparent 60%),
+      radial-gradient(ellipse 50% 30% at 50% 100%, rgba(227,165,60,0.08), transparent 60%),
+      var(--bg-outer);
+  }
+
+  .frame{
+    position:relative; z-index:1;
+    width:100%;
+    max-width:520px;
+    background:var(--bg);
+    min-height:100vh;
+    border-left:1px solid var(--line);
+    border-right:1px solid var(--line);
+    overflow:hidden;
+  }
+
+  .frame::before{
+    content:'';
+    position:absolute; top:0; left:0; right:0; height:340px;
+    background:radial-gradient(ellipse 100% 100% at 50% 0%, rgba(227,165,60,0.14), transparent 70%);
+    pointer-events:none;
+  }
+
+  section{ position:relative; padding:64px 28px; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding-top:72px;
+    padding-bottom:36px;
+    text-align:center;
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--gold);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--gold); box-shadow:0 0 8px var(--gold); animation:pulse 2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
+
+  h1.title{
+    font-family:var(--display);
+    font-weight:800;
+    font-size:clamp(44px, 12vw, 64px);
+    letter-spacing:-0.03em;
+    line-height:0.95;
+  }
+  .subtitle{
+    margin-top:18px;
+    color:var(--text-dim);
+    font-size:15px;
+    line-height:1.6;
+    max-width:340px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  /* retention curve — signature element */
+  .curve-wrap{ margin-top:38px; position:relative; }
+  .curve-wrap svg{ width:100%; height:auto; display:block; }
+  .curve-path{
+    stroke-dasharray:600;
+    stroke-dashoffset:600;
+    animation:draw 2.2s cubic-bezier(.65,0,.35,1) forwards 0.3s;
+  }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+  .curve-labels{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:10px; color:var(--text-faint);
+    margin-top:8px; letter-spacing:0.05em;
+  }
+
+  /* ---------- TIMECODE DIVIDER ---------- */
+  .timecode{
+    display:flex; align-items:center; gap:14px;
+    padding:0 28px;
+    margin-top:8px;
+  }
+  .timecode .tc{
+    font-family:var(--mono); font-size:11px; color:var(--text-faint);
+    letter-spacing:0.05em; white-space:nowrap;
+  }
+  .timecode .rule{ flex:1; height:1px; background:var(--line); }
+
+  /* ---------- PACKAGE CARD ---------- */
+  .pkg{
+    margin:28px 28px 0;
+    border-radius:20px;
+    padding:26px 24px;
+    background:var(--card);
+    border:1px solid var(--line);
+    position:relative;
+  }
+  .pkg.featured{
+    background:linear-gradient(165deg, #221a30, #17151a 55%);
+    border:1px solid rgba(155,107,255,0.35);
+    box-shadow:0 0 0 1px rgba(155,107,255,0.08), 0 20px 60px -20px rgba(155,107,255,0.35);
+  }
+  .pkg-badge{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--text-faint);
+    margin-bottom:10px;
+  }
+  .pkg.featured .pkg-badge{ color:var(--violet); }
+  .pkg-name{
+    font-family:var(--display); font-weight:700; font-size:24px; letter-spacing:-0.01em;
+    display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
+  }
+  .pkg-tier{ color:var(--text-dim); font-weight:500; font-size:15px; font-family:var(--body); }
+  .best-seller{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--gold); background:rgba(227,165,60,0.1); border:1px solid rgba(227,165,60,0.3);
+    padding:3px 9px; border-radius:100px; margin-left:auto;
+  }
+  ul.pkg-list{
+    list-style:none; margin-top:18px; display:flex; flex-direction:column; gap:11px;
+  }
+  ul.pkg-list li{
+    display:flex; gap:10px; font-size:14px; line-height:1.5; color:var(--text-dim);
+  }
+  ul.pkg-list li::before{
+    content:'';
+    flex-shrink:0;
+    width:5px; height:5px; border-radius:50%;
+    background:var(--gold);
+    margin-top:7px;
+  }
+  .pkg.featured ul.pkg-list li::before{ background:var(--violet); }
+
+  /* ---------- VIDEO GRID ---------- */
+  .grid{
+    margin:26px 28px 0;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:8px;
+  }
+  .clip{
+    position:relative;
+    aspect-ratio:9/16;
+    border-radius:10px;
+    overflow:hidden;
+    background:var(--card-2);
+    border:1px solid var(--line);
+    display:flex;
+    align-items:flex-end;
+    cursor:default;
+    isolation:isolate;
+  }
+  .clip::before{
+    content:'';
+    position:absolute; inset:0;
+    background:var(--clip-grad);
+    opacity:0.9;
+    z-index:0;
+  }
+  .clip::after{
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.75) 100%);
+    z-index:1;
+  }
+  .clip-play{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:34px; height:34px; border-radius:50%;
+    background:rgba(255,255,255,0.14);
+    backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,0.25);
+    display:flex; align-items:center; justify-content:center;
+    z-index:2;
+    transition:transform .25s ease, background .25s ease;
+  }
+  .clip:hover .clip-play{ transform:translate(-50%,-50%) scale(1.1); background:rgba(255,255,255,0.22); }
+  .clip-play svg{ width:12px; height:12px; margin-left:2px; }
+  .clip-label{
+    position:relative; z-index:2;
+    padding:9px 8px;
+    font-size:11px;
+    font-weight:600;
+    line-height:1.25;
+    color:#fff;
+    text-shadow:0 1px 3px rgba(0,0,0,0.4);
+  }
+  .clip-tc{
+    position:absolute; top:7px; right:7px; z-index:2;
+    font-family:var(--mono); font-size:9px; color:rgba(255,255,255,0.8);
+    background:rgba(0,0,0,0.35); padding:2px 5px; border-radius:4px;
+  }
+
+  .c1{ --clip-grad: linear-gradient(160deg,#3a2a4a,#1c1420); }
+  .c2{ --clip-grad: linear-gradient(160deg,#2a3a3f,#141d1f); }
+  .c3{ --clip-grad: linear-gradient(160deg,#4a3324,#1e1610); }
+  .c4{ --clip-grad: linear-gradient(160deg,#2e2a4a,#151322); }
+  .c5{ --clip-grad: linear-gradient(160deg,#25303a,#10161c); }
+  .c6{ --clip-grad: linear-gradient(160deg,#3f2a3a,#1c1219); }
+  .c7{ --clip-grad: linear-gradient(160deg,#2a3f33,#111d16); }
+  .c8{ --clip-grad: linear-gradient(160deg,#3a3224,#1a160e); }
+  .c9{ --clip-grad: linear-gradient(160deg,#243a3f,#0f1a1d); }
+
+  /* ---------- CHEVRON DIVIDER ---------- */
+  .chevron{
+    display:flex; justify-content:center;
+    padding:46px 0 6px;
+  }
+  .chevron svg{ animation:bob 2.2s ease-in-out infinite; }
+  @keyframes bob{ 0%,100%{ transform:translateY(0); opacity:0.5; } 50%{ transform:translateY(6px); opacity:1; } }
+
+  /* ---------- SOCIAL PROOF ---------- */
+  .proof-head{
+    padding:0 28px;
+    font-family:var(--display);
+    font-weight:600;
+    font-size:19px;
+    color:var(--text);
+    margin-bottom:22px;
+  }
+  .proof-grid{
+    padding:0 28px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .proof-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px;
+  }
+  .proof-top{ display:flex; align-items:center; gap:9px; margin-bottom:9px; }
+  .avatar{
+    width:34px; height:34px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--display); font-weight:700; font-size:12px;
+    color:#0b0a0d;
+    flex-shrink:0;
+  }
+  .proof-name{ font-size:12.5px; font-weight:600; display:flex; align-items:center; gap:4px; }
+  .proof-name svg{ width:11px; height:11px; flex-shrink:0; }
+  .proof-stats{ font-size:10.5px; color:var(--text-faint); margin-top:1px; font-family:var(--mono); }
+  .proof-quote{ font-size:11.5px; color:var(--text-dim); line-height:1.45; }
+
+  /* ---------- ABOUT ---------- */
+  .about{
+    display:flex; flex-direction:column; gap:22px;
+  }
+  .about-visual{
+    width:100%;
+    aspect-ratio:4/5;
+    border-radius:18px;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(227,165,60,0.25), transparent 55%),
+      radial-gradient(ellipse at 70% 80%, rgba(155,107,255,0.25), transparent 55%),
+      linear-gradient(160deg, #201c26, #121014);
+    border:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .about-visual .mark{
+    font-family:var(--display); font-weight:800; font-size:15vw; max-font-size:64px;
+    color:rgba(255,255,255,0.06);
+    letter-spacing:-0.04em;
+  }
+  .about-eyebrow{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-faint);
+  }
+  .about h2{
+    font-family:var(--display); font-weight:700; font-size:34px; letter-spacing:-0.02em; line-height:1.02; margin-top:6px;
+  }
+  .about h2 span{ color:var(--gold); }
+  .about p{
+    color:var(--text-dim); font-size:14.5px; line-height:1.7; margin-top:16px;
+  }
+  .about p strong{ color:var(--text); font-weight:600; }
+  .about p:first-of-type{ margin-top:22px; }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:56px 28px 60px;
+    text-align:center;
+    border-top:1px solid var(--line);
+    margin-top:20px;
+  }
+  .wordmark{
+    font-family:var(--display); font-weight:800; font-size:15px; letter-spacing:0.22em;
+    color:var(--text-dim);
+  }
+  .wordmark span{ color:var(--gold); }
+  footer .fine{
+    margin-top:10px; font-family:var(--mono); font-size:10px; color:var(--text-faint); letter-spacing:0.05em;
+  }
+
+  /* ---------- FORM (topo da página) ---------- */
+  .form-section{
+    padding-top:56px;
+    padding-bottom:8px;
+    text-align:center;
+  }
+  .form-eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--gold);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .form-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--gold); box-shadow:0 0 8px var(--gold); animation:pulse 2s ease-in-out infinite;}
+  .form-title{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:clamp(26px, 7vw, 32px);
+    letter-spacing:-0.02em;
+    line-height:1.08;
+  }
+  .form-title span{ color:var(--gold); }
+  .form-sub{
+    margin-top:12px;
+    color:var(--text-dim);
+    font-size:14px;
+    line-height:1.6;
+    max-width:340px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .form-embed-wrap{
+    margin:26px 20px 0;
+    border-radius:18px;
+    border:1px solid var(--line);
+    background:var(--card);
+    overflow:hidden;
+    text-align:left;
+  }
+  .form-embed-wrap iframe{
+    width:100%;
+    border:0;
+    display:block;
+    min-height:420px;
+  }
+  .form-section .below-rule{
+    height:1px;
+    background:var(--line);
+    margin:52px 0 0;
+  }
+
+  /* reveal on scroll */
+  .reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  @media (max-width:380px){
+    section{ padding-left:20px; padding-right:20px; }
+    .pkg, .grid, .proof-grid, .proof-head, .timecode{ margin-left:20px; margin-right:20px; }
+    .grid{ padding:0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="backdrop"></div>
+
+<div class="frame">
+
+  <!-- FORMULÁRIO (topo da página) -->
+  <section class="form-section">
+    <div class="form-eyebrow"><span class="dot"></span>Comece por aqui</div>
+    <h2 class="form-title">Vamos entender seu <span>momento de conteúdo</span></h2>
+    <p class="form-sub">Responda 7 perguntas rápidas e eu te retorno com a proposta ideal para o seu negócio.</p>
+    <div class="form-embed-wrap">
+      <iframe
+        data-tally-src="https://tally.so/embed/rjMElo?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+        loading="lazy"
+        width="100%"
+        height="420"
+        title="A maneira mais rápida de começar.">
+      </iframe>
+    </div>
+    <div class="below-rule"></div>
+  </section>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow"><span class="dot"></span>Edição de vídeo &amp; retenção</div>
+    <h1 class="title">Portfólio</h1>
+    <p class="subtitle">Vídeos pensados para prender a atenção do primeiro ao último segundo.</p>
+
+    <div class="curve-wrap">
+      <svg viewBox="0 0 460 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="curveFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#e3a53c" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#e3a53c" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d="M0,100 L460,100 L460,90 C 400,88 380,40 340,32 C 300,24 280,55 240,50 C 200,45 190,20 150,18 C 110,16 100,42 60,38 C 30,35 10,50 0,55 Z" fill="url(#curveFill)"/>
+        <path class="curve-path" d="M0,55 C 10,50 30,35 60,38 C 100,42 110,16 150,18 C 190,20 200,45 240,50 C 280,55 300,24 340,32 C 380,40 400,88 460,90" stroke="#e3a53c" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="curve-labels"><span>00:00</span><span>retenção média por edição</span><span>00:60</span></div>
+    </div>
+  </section>
+
+  <!-- TIMECODE -->
+  <div class="timecode reveal"><span class="tc">CAP. 01</span><div class="rule"></div></div>
+
+  <!-- PACOTE 1 -->
+  <section style="padding-top:20px; padding-bottom:0;">
+    <div class="pkg reveal">
+      <div class="pkg-badge">Nível básico</div>
+      <div class="pkg-name">Pacote Essencial</div>
+      <ul class="pkg-list">
+        <li>Para quem quer começar com vídeos, sem complicação.</li>
+        <li>Edição simples (corte, legenda, ajuste de cor, trilha).</li>
+        <li>Entrega em até 72 horas.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="grid reveal">
+    <div class="clip c1"><span class="clip-tc">0:14</span><div class="clip-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div><span class="clip-label">Loja de moda — reel de vitrine</span></div>
+    <div class="clip c2"><span class="clip-tc">0:41</span><div class="clip-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div><span class="clip-label">Depoimento de paciente</span></div>
+    <div class="clip c3"><span class="clip-tc">0:22</span><div class="clip-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div><span class="clip-label">"O sorriso" — clínica odonto</span></div>
+  </div>
+
+  <!-- TIMECODE 2 -->
+  <div class="timecode reveal" style="margin-top:52px;"><span class="tc">CAP. 02</span><div class="rule"></div></div>
+
+  <!-- PACOTE 2 -->
+  <section style="padding-top:20px; padding-bottom:0;">
+    <div class="pkg featured reveal">
+      <div class="pkg-badge">Nível avançado</div>
+      <div class="pkg-name">Pacote Impacto <span class="best-seller">★ mais vendido</span></div>
+      <ul class="pkg-list">
+        <li>Vídeos com mais performance e identidade da marca.</li>
+        <li>Edição com legenda dinâmica, cortes acelerados, transições inteligentes.</li>
+        <li>Entrega em até 72 horas.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="grid reveal">
+    <div class="clip c4"><span class="clip-tc">0:29</span><div class="clip-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div><span class="clip-label">3 marcas que estão arrasando</span></div>
+    <div class="clip c5"><span class="clip-tc">0:33</span><div class="clip-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div><span class="clip-label">"Da cadeira" — storytelling</span></div>
+    <div class="clip c6"><span class="clip-tc">0:18</span><div class="clip-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div><span class="clip-label">"Dentro do motor" — bastidor</span></div>
+    <div class="clip c7"><span class="clip-tc">0:25</span><div class="clip-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div><span class="clip-label">Se você ainda edita seus próprios vídeos</span></div>
+    <div class="clip c8"><span class="clip-tc">0:37</span><div class="clip-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div><span class="clip-label">Rotina de bastidores</span></div>
+    <div class="clip c9"><span class="clip-tc">0:44</span><div class="clip-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div><span class="clip-label">Vlog — natureza &amp; conteúdo</span></div>
+  </div>
+
+  <div class="chevron">
+    <svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M1 1L11 12L21 1" stroke="#5f5c66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+
+  <!-- SOCIAL PROOF -->
+  <section style="padding-top:30px;">
+    <div class="proof-head reveal">Alguns perfis que confiaram no meu trabalho.</div>
+    <div class="proof-grid reveal">
+
+      <div class="proof-card">
+        <div class="proof-top">
+          <div class="avatar" style="background:linear-gradient(135deg,#e3a53c,#c97a2e);">PS</div>
+          <div>
+            <div class="proof-name">paulinhosefton <svg viewBox="0 0 24 24" fill="#9b6bff"><path d="M12 2l2.4 2.4 3.4-.5.5 3.4L21 9.7 18.9 12l2.1 2.3-2.4 2.4-.5 3.4-3.4-.5L12 22l-2.4-2.4-3.4.5-.5-3.4L3.1 14.3 5 12 3.1 9.7l2.4-2.4.5-3.4 3.4.5L12 2z"/></svg></div>
+            <div class="proof-stats">criador · mentor</div>
+          </div>
+        </div>
+        <div class="proof-quote">Mentor de relacionamentos e carreira — conteúdo com identidade forte.</div>
+      </div>
+
+      <div class="proof-card">
+        <div class="proof-top">
+          <div class="avatar" style="background:linear-gradient(135deg,#9b6bff,#5f3fc9);">KK</div>
+          <div>
+            <div class="proof-name">ketherink <svg viewBox="0 0 24 24" fill="#9b6bff"><path d="M12 2l2.4 2.4 3.4-.5.5 3.4L21 9.7 18.9 12l2.1 2.3-2.4 2.4-.5 3.4-3.4-.5L12 22l-2.4-2.4-3.4.5-.5-3.4L3.1 14.3 5 12 3.1 9.7l2.4-2.4.5-3.4 3.4.5L12 2z"/></svg></div>
+            <div class="proof-stats">criadora de conteúdo</div>
+          </div>
+        </div>
+        <div class="proof-quote">Conteúdo para redes sociais com roteiro e edição sob medida.</div>
+      </div>
+
+      <div class="proof-card">
+        <div class="proof-top">
+          <div class="avatar" style="background:linear-gradient(135deg,#4f8f6b,#2c5c42);">AW</div>
+          <div>
+            <div class="proof-name">agenciawww</div>
+            <div class="proof-stats">agência</div>
+          </div>
+        </div>
+        <div class="proof-quote">Produção em parceria para clientes de marketing digital.</div>
+      </div>
+
+      <div class="proof-card">
+        <div class="proof-top">
+          <div class="avatar" style="background:linear-gradient(135deg,#e3597a,#a83a58);">IG</div>
+          <div>
+            <div class="proof-name">igorguedesoficial</div>
+            <div class="proof-stats">criador</div>
+          </div>
+        </div>
+        <div class="proof-quote">Vídeos longos com foco em geração e ritmo de edição.</div>
+      </div>
+
+      <div class="proof-card">
+        <div class="proof-top">
+          <div class="avatar" style="background:linear-gradient(135deg,#4c8fe0,#2c5aa8);">BA</div>
+          <div>
+            <div class="proof-name">brokagency</div>
+            <div class="proof-stats">agência</div>
+          </div>
+        </div>
+        <div class="proof-quote">Estratégia digital e produção de conteúdo em conjunto.</div>
+      </div>
+
+      <div class="proof-card">
+        <div class="proof-top">
+          <div class="avatar" style="background:linear-gradient(135deg,#c9963f,#8a6321);">+5</div>
+          <div>
+            <div class="proof-name">e outros clientes</div>
+            <div class="proof-stats">criadores &amp; marcas</div>
+          </div>
+        </div>
+        <div class="proof-quote">Perfis de diferentes nichos que já confiaram no meu trabalho.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about reveal" style="padding-top:36px;">
+    <div class="about-visual"><span class="mark">ME</span></div>
+    <div>
+      <div class="about-eyebrow">Quem é</div>
+      <h2>o <span>Marcus</span>?</h2>
+      <p>Sou especialista em conteúdo e construí minha agência de edição de vídeos do zero.</p>
+      <p>Hoje, meu trabalho vai além de simplesmente editar vídeos.</p>
+      <p>Eu transformo conteúdo bruto em vídeos pensados para <strong>prender a atenção</strong>, <strong>fortalecer sua identidade no digital</strong> e fazer com que <strong>mais pessoas queiram continuar assistindo</strong>.</p>
+      <p><strong>O objetivo é simples:</strong> criar conteúdos com mais retenção, mais força e mais consistência, ajudando você a transformar atenção em <strong>seguidores, autoridade e faturamento</strong>.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wordmark">EM<span>I</span>DIO</div>
+    <div class="fine">Edição de vídeo · Estratégia digital · Vitória, ES</div>
+  </footer>
+
+</div>
+
+<script>
+  // Carrega o embed do Tally (ajusta a altura do form automaticamente)
+  (function(){
+    var d=document,w="https://tally.so/widgets/embed.js",v=function(){
+      if(typeof Tally!=="undefined"){ Tally.loadEmbeds(); }
+      else{ d.querySelectorAll("iframe[data-tally-src]").forEach(function(e){ e.src=e.dataset.tallySrc; }); }
+    };
+    if(typeof Tally!=="undefined"){ v(); }
+    else if(d.querySelector('script[src="'+w+'"]')==null){
+      var s=d.createElement("script"); s.src=w; s.onload=v; s.onerror=v; d.body.appendChild(s);
+    }
+  })();
+
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.15});
+  els.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
